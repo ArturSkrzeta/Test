@@ -4,23 +4,21 @@ node {
     stage('Clone repository') {
         /* Let's make sure we have the repository cloned to our workspace */
 
-        checkout scm
+        echo 'cloning...'
     }
 
     stage('Build image') {
         /* This builds the actual image; synonymous to
          * docker build on the command line */
 
-        app = docker.build("arturskrrr/test")
+        echo 'building...'
     }
 
     stage('Test image') {
         /* Ideally, we would run a test framework against our image.
          * Just an example */
 
-        app.inside {
-            sh 'echo "Tests passed"'
-        }
+        echo 'testing...'
     }
 
     stage('Push image') {
@@ -28,9 +26,6 @@ node {
          * First, the incremental build number from Jenkins
          * Second, the 'latest' tag.
          * Pushing multiple tags is cheap, as all the layers are reused. */
-        docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-            app.push("${env.BUILD_NUMBER}")
-            app.push("latest")
-        }
+            echo 'pushing...'
     }
 }
